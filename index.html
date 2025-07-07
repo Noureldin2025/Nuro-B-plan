@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuro: The Unified Marketing OS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-ar: 'Tajawal', sans-serif;
+            --font-en: 'Inter', sans-serif;
+        }
+        html[lang="ar"] body {
+            font-family: var(--font-ar);
+        }
+        html[lang="en"] body {
+            font-family: var(--font-en);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .kpi-card h3 {
+             font-size: clamp(2rem, 5vw, 3.5rem);
+        }
+        .flow-line::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            inset-inline-end: 100%;
+            width: 2rem;
+            height: 2px;
+            background-color: #d1d5db;
+        }
+        .flow-line-vertical::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            width: 2px;
+            height: 2rem;
+            background-color: #d1d5db;
+            transform: translateX(-50%);
+        }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .roadmap-item:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            inset-inline-end: -2.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #9ca3af;
+        }
+        html[dir="ltr"] .roadmap-item:not(:last-child)::after {
+             content: '→';
+        }
+        html[dir="rtl"] .roadmap-item:not(:last-child)::after {
+             content: '←';
+        }
+        [data-lang="en"] { display: none; }
+        html[lang="en"] [data-lang="en"] { display: block; }
+        html[lang="en"] [data-lang="ar"] { display: none; }
+        html[lang="ar"] [data-lang="ar"] { display: block; }
+        html[lang="ar"] [data-lang="en"] { display: none; }
+
+    </style>
+</head>
+<body class="bg-gray-50 antialiased text-gray-800">
+    <div class="fixed top-4 end-4 z-50">
+        <button id="lang-switcher" class="bg-white shadow-lg rounded-full px-4 py-2 font-semibold text-indigo-600 flex items-center gap-2">
+            <span>🌐</span>
+            <span data-lang="ar">English</span>
+            <span data-lang="en">العربية</span>
+        </button>
+    </div>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center py-12">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+                <span data-lang="ar">هل تعاني من <span class="text-indigo-600">فوضى أدوات</span> التسويق؟</span>
+                <span data-lang="en">Drowning in a sea of <span class="text-indigo-600">marketing tools</span>?</span>
+            </h1>
+            <p class="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-gray-600">
+                <span data-lang="ar">تستهلك "ضريبة التكامل" مواردك وتعيق نموك. حان الوقت للتغيير.</span>
+                <span data-lang="en">The 'Integration Tax' is draining your resources and hindering growth. It's time for a change.</span>
+            </p>
+        </header>
+
+        <section class="fade-in-section my-16 md:my-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold" data-lang="ar">المشكلة: نظام العمل المشتت</h2>
+                <h2 class="text-3xl font-bold" data-lang="en">The Problem: A Fragmented Workflow</h2>
+                <p class="text-gray-600 mt-2" data-lang="ar">فرق التسويق تضطر للتعامل مع أدوات منفصلة، مما يخلق فوضى حقيقية.</p>
+                <p class="text-gray-600 mt-2" data-lang="en">Marketing teams are forced to juggle separate tools, creating operational chaos.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center text-center">
+                <div class="flex flex-col items-center">
+                    <div class="bg-white p-4 rounded-full shadow-lg"><span class="text-3xl">📝</span></div>
+                    <p class="mt-2 font-semibold">Asana</p>
+                    <p class="text-xs text-gray-500" data-lang="ar">للمهام</p>
+                    <p class="text-xs text-gray-500" data-lang="en">For Tasks</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-white p-4 rounded-full shadow-lg"><span class="text-3xl">💬</span></div>
+                    <p class="mt-2 font-semibold">Slack</p>
+                    <p class="text-xs text-gray-500" data-lang="ar">للتواصل</p>
+                    <p class="text-xs text-gray-500" data-lang="en">For Comms</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-white p-4 rounded-full shadow-lg"><span class="text-3xl">📁</span></div>
+                    <p class="mt-2 font-semibold">Google Drive</p>
+                    <p class="text-xs text-gray-500" data-lang="ar">للملفات</p>
+                    <p class="text-xs text-gray-500" data-lang="en">For Files</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="bg-white p-4 rounded-full shadow-lg"><span class="text-3xl">🗓️</span></div>
+                    <p class="mt-2 font-semibold">Google Calendar</p>
+                    <p class="text-xs text-gray-500" data-lang="ar">للجداول</p>
+                    <p class="text-xs text-gray-500" data-lang="en">For Schedules</p>
+                </div>
+                <div class="flex flex-col items-center col-span-2 md:col-span-1 lg:col-span-1">
+                    <div class="bg-white p-4 rounded-full shadow-lg"><span class="text-3xl">📊</span></div>
+                    <p class="mt-2 font-semibold">AgencyAnalytics</p>
+                    <p class="text-xs text-gray-500" data-lang="ar">للتقارير</p>
+                    <p class="text-xs text-gray-500" data-lang="en">For Reports</p>
+                </div>
+            </div>
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-red-50 border-s-4 border-red-500 p-6 rounded-lg">
+                    <h3 class="font-bold text-red-800" data-lang="ar">فجوة إشرافية ورقابية</h3>
+                    <h3 class="font-bold text-red-800" data-lang="en">Supervisory & Control Gap</h3>
+                    <p class="text-red-700 mt-2" data-lang="ar">يجد أصحاب الشركات صعوبة بالغة في متابعة أداء إدارات التسويق، مدى التزامهم بالاستراتيجية، وتحقيق الأهداف المحددة.</p>
+                    <p class="text-red-700 mt-2" data-lang="en">Business owners struggle to monitor their marketing departments' performance, strategic alignment, and goal achievement.</p>
+                </div>
+                <div class="bg-yellow-50 border-s-4 border-yellow-500 p-6 rounded-lg">
+                    <h3 class="font-bold text-yellow-800" data-lang="ar">ضياع الكفاءة</h3>
+                    <h3 class="font-bold text-yellow-800" data-lang="en">Efficiency Loss</h3>
+                    <p class="text-yellow-700 mt-2" data-lang="ar">نقل البيانات يدوياً يهدر الوقت ويزيد من احتمالية الأخطاء، مما يؤثر على جودة العمل النهائي.</p>
+                    <p class="text-yellow-700 mt-2" data-lang="en">Manually transferring data wastes time and increases the risk of errors, impacting the final quality of work.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="fade-in-section bg-gray-900 text-white my-16 py-16 px-8 rounded-2xl text-center">
+            <h2 class="text-4xl font-extrabold" data-lang="ar">نقدم لكم Nuro: الحل الموحد</h2>
+            <h2 class="text-4xl font-extrabold" data-lang="en">Introducing Nuro: The Unified Solution</h2>
+            <p class="mt-4 text-xl text-gray-300 max-w-3xl mx-auto" data-lang="ar">نظام تشغيل تسويقي واحد، ذكي، ومؤتمت. نحن لا نستبدل أداة، بل نستبدل الفوضى بأكملها.</p>
+            <p class="mt-4 text-xl text-gray-300 max-w-3xl mx-auto" data-lang="en">One intelligent, automated Marketing Operating System. We don't just replace a tool; we replace the entire chaos.</p>
+            <div class="mt-8 bg-indigo-600 inline-block px-8 py-3 rounded-lg font-bold">
+                <span data-lang="ar">القيمة الأساسية: التوحيد</span>
+                <span data-lang="en">Core Value: Unification</span>
+            </div>
+        </section>
+        
+        <section class="fade-in-section my-16 md:my-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold" data-lang="ar">عرض القيمة: توفير حقيقي</h2>
+                <h2 class="text-3xl font-bold" data-lang="en">The Value Proposition: Real Savings</h2>
+                <p class="text-gray-600 mt-2" data-lang="ar">هكذا يترجم توحيد الأدوات إلى توفير في الوقت والتكاليف.</p>
+                <p class="text-gray-600 mt-2" data-lang="en">This is how unifying tools translates into time and cost savings.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <div class="chart-container" style="height: 250px; max-width: 600px;">
+                    <canvas id="hoursChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="fade-in-section my-16 md:my-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold" data-lang="ar">وحدات Nuro الأساسية</h2>
+                <h2 class="text-3xl font-bold" data-lang="en">Nuro's Core Modules</h2>
+                <p class="text-gray-600 mt-2" data-lang="ar">خمس وحدات متكاملة تغطي دورة حياة العمل التسويقي بالكامل.</p>
+                <p class="text-gray-600 mt-2" data-lang="en">Five integrated modules covering the entire marketing lifecycle.</p>
+            </div>
+            <div class="flex flex-col items-center space-y-8 md:space-y-0">
+                <div class="bg-white p-6 rounded-xl shadow-lg w-full md:w-3/4 lg:w-1/2 text-center">
+                    <h3 class="text-xl font-bold text-indigo-700" data-lang="ar">١. إدارة دورة حياة العميل</h3>
+                    <h3 class="text-xl font-bold text-indigo-700" data-lang="en">1. Client Lifecycle Management</h3>
+                    <p class="text-sm mt-1 text-gray-600" data-lang="ar">أتمتة إعداد العميل وبوابة آمنة للتواصل.</p>
+                    <p class="text-sm mt-1 text-gray-600" data-lang="en">Automated client onboarding and a secure portal for communication.</p>
+                </div>
+                <div class="h-8 w-px bg-gray-300"></div>
+                <div class="bg-white p-6 rounded-xl shadow-lg w-full md:w-3/4 lg:w-1/2 text-center">
+                    <h3 class="text-xl font-bold text-indigo-700" data-lang="ar">٢. مركز القيادة الاستراتيجي</h3>
+                    <h3 class="text-xl font-bold text-indigo-700" data-lang="en">2. Strategic Command Center</h3>
+                    <p class="text-sm mt-1 text-gray-600" data-lang="ar">ربط الأهداف (OKRs) بالمهام اليومية.</p>
+                    <p class="text-sm mt-1 text-gray-600" data-lang="en">Connecting high-level objectives (OKRs) to daily tasks.</p>
+                </div>
+                <div class="h-8 w-px bg-gray-300"></div>
+                <div class="bg-white p-6 rounded-xl shadow-lg w-full md:w-3/4 lg:w-1/2 text-center">
+                    <h3 class="text-xl font-bold text-indigo-700" data-lang="ar">٣. محرك الإنتاج الإبداعي</h3>
+                    <h3 class="text-xl font-bold text-indigo-700" data-lang="en">3. Creative Production Engine</h3>
+                    <p class="text-sm mt-1 text-gray-600" data-lang="ar">مساعد ذكاء اصطناعي ونظام لإدارة الأصول.</p>
+                    <p class="text-sm mt-1 text-gray-600" data-lang="en">AI co-pilot and a built-in Digital Asset Management system.</p>
+                </div>
+                <div class="h-8 w-px bg-gray-300"></div>
+                <div class="bg-white p-6 rounded-xl shadow-lg w-full md:w-3/4 lg:w-1/2 text-center">
+                    <h3 class="text-xl font-bold text-indigo-700" data-lang="ar">٤. مركز العمليات والتنفيذ</h3>
+                    <h3 class="text-xl font-bold text-indigo-700" data-lang="en">4. Operations & Execution Hub</h3>
+                    <p class="text-sm mt-1 text-gray-600" data-lang="ar">إدارة مشاريع مرنة وقوالب جاهزة.</p>
+                    <p class="text-sm mt-1 text-gray-600" data-lang="en">Flexible project management with ready-to-use templates.</p>
+                </div>
+                <div class="h-8 w-px bg-gray-300"></div>
+                <div class="bg-white p-6 rounded-xl shadow-lg w-full md:w-3/4 lg:w-1/2 text-center">
+                    <h3 class="text-xl font-bold text-indigo-700" data-lang="ar">٥. محور الأداء والتحليلات</h3>
+                    <h3 class="text-xl font-bold text-indigo-700" data-lang="en">5. Performance & Analytics Nexus</h3>
+                    <p class="text-sm mt-1 text-gray-600" data-lang="ar">تقارير آلية ورؤى ذكية بدلاً من بيانات جامدة.</p>
+                    <p class="text-sm mt-1 text-gray-600" data-lang="en">Automated reports and intelligent insights instead of static data.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="fade-in-section my-16 md:my-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                 <div>
+                    <h2 class="text-3xl font-bold" data-lang="ar">لمن منصة Nuro؟</h2>
+                    <h2 class="text-3xl font-bold" data-lang="en">Who is Nuro For?</h2>
+                    <p class="mt-4 text-gray-600" data-lang="ar">تم تصميم Nuro خصيصًا لسد الفجوة في السوق، وخدمة الفرق التي تعاني من "ضريبة التكامل" ولا تجد حلاً مناسباً في الأدوات الحالية. الشريحة الأساسية التي نخدمها هي الأكبر والأكثر معاناة.</p>
+                    <p class="mt-4 text-gray-600" data-lang="en">Nuro is specifically designed to fill a market gap, serving teams who suffer from the 'Integration Tax' and find no suitable solution in current tools.</p>
+                    <ul class="mt-6 space-y-4">
+                        <li class="flex items-start">
+                            <span class="inline-block bg-indigo-500 h-6 w-6 rounded-full flex-shrink-0 me-3 mt-1"></span>
+                            <div>
+                                <h4 class="font-bold" data-lang="ar">الشريحة الأساسية (80%)</h4>
+                                <h4 class="font-bold" data-lang="en">Primary Segment (80%)</h4>
+                                <p class="text-gray-600" data-lang="ar">المستقلون ووكالات التسويق الصغيرة والمتوسطة (1-50 موظف).</p>
+                                <p class="text-gray-600" data-lang="en">Freelancers and small to medium-sized marketing agencies (1-50 employees).</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                             <span class="inline-block bg-emerald-400 h-6 w-6 rounded-full flex-shrink-0 me-3 mt-1"></span>
+                            <div>
+                                <h4 class="font-bold" data-lang="ar">الشريحة الثانوية (20%)</h4>
+                                <h4 class="font-bold" data-lang="en">Secondary Segment (20%)</h4>
+                                <p class="text-gray-600" data-lang="ar">إدارات التسويق الداخلية والشركات الناشئة التي تؤسس أقسام تسويق جديدة.</p>
+                                <p class="text-gray-600" data-lang="en">In-house marketing departments and startups establishing new marketing teams.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-center font-bold text-xl mb-4" data-lang="ar">توزيع السوق المستهدف</h3>
+                    <h3 class="text-center font-bold text-xl mb-4" data-lang="en">Target Market Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="marketShareChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="fade-in-section my-16 md:my-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold" data-lang="ar">ميزتنا التنافسية</h2>
+                <h2 class="text-3xl font-bold" data-lang="en">Our Competitive Edge</h2>
+                <p class="text-gray-600 mt-2" data-lang="ar">كيف نتفوق على البدائل الحالية في السوق.</p>
+                <p class="text-gray-600 mt-2" data-lang="en">How we stack up against the current market alternatives.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-lg overflow-x-auto">
+                <table id="competitive-table" class="w-full text-center">
+                </table>
+            </div>
+        </section>
+
+        <section class="fade-in-section my-16 md:my-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold" data-lang="ar">استراتيجية الوصول للسوق</h2>
+                <h2 class="text-3xl font-bold" data-lang="en">Go-to-Market Strategy</h2>
+                <p class="text-gray-600 mt-2" data-lang="ar">نعتمد على المنتج نفسه ليكون محرك النمو الأساسي.</p>
+                <p class="text-gray-600 mt-2" data-lang="en">We rely on the product itself to be the primary growth engine.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <div class="text-4xl mb-4">📝</div>
+                    <h3 class="font-bold text-lg" data-lang="ar">التسويق بالمحتوى</h3>
+                    <h3 class="font-bold text-lg" data-lang="en">Content Marketing</h3>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="ar">مدونات وحالات دراسة لإظهار القيمة.</p>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="en">Blogs and case studies to demonstrate value.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <div class="text-4xl mb-4">🔍</div>
+                    <h3 class="font-bold text-lg" data-lang="ar">تحسين محركات البحث</h3>
+                    <h3 class="font-bold text-lg" data-lang="en">SEO</h3>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="ar">استهداف الكلمات التي يبحث عنها جمهورنا.</p>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="en">Targeting keywords our audience searches for.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <div class="text-4xl mb-4">🎁</div>
+                    <h3 class="font-bold text-lg" data-lang="ar">النموذج المجاني</h3>
+                    <h3 class="font-bold text-lg" data-lang="en">Freemium Model</h3>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="ar">تجربة مجانية سخية لدفع التبني.</p>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="en">A generous free trial to drive adoption.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                    <div class="text-4xl mb-4">💬</div>
+                    <h3 class="font-bold text-lg" data-lang="ar">بناء مجتمع</h3>
+                    <h3 class="font-bold text-lg" data-lang="en">Community Building</h3>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="ar">مجتمع للمستخدمين لتبادل الخبرات.</p>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="en">A community for users to share expertise.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="fade-in-section my-16 md:my-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold" data-lang="ar">التوقعات المالية ومؤشرات النجاح</h2>
+                <h2 class="text-3xl font-bold" data-lang="en">Financial Outlook & Success Metrics</h2>
+                <p class="text-gray-600 mt-2" data-lang="ar">نركز على المقاييس التي تضمن نموًا صحيًا ومستدامًا.</p>
+                <p class="text-gray-600 mt-2" data-lang="en">We focus on the metrics that ensure healthy, sustainable growth.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 items-center">
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="font-bold text-indigo-600" data-lang="ar">الإيرادات الشهرية المتكررة</h3>
+                        <h3 class="font-bold text-indigo-600" data-lang="en">Monthly Recurring Revenue</h3>
+                        <p class="text-sm text-gray-500" data-lang="ar">المحرك الأساسي للإيرادات.</p>
+                        <p class="text-sm text-gray-500" data-lang="en">The primary driver of revenue.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="font-bold text-indigo-600" data-lang="ar">معدل توقف العملاء</h3>
+                        <h3 class="font-bold text-indigo-600" data-lang="en">Churn Rate</h3>
+                        <p class="text-sm text-gray-500" data-lang="ar">مقياس رضا العملاء والاحتفاظ بهم.</p>
+                        <p class="text-sm text-gray-500" data-lang="en">A measure of customer satisfaction and retention.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h3 class="font-bold text-indigo-600" data-lang="ar">نسبة LTV إلى CAC</h3>
+                        <h3 class="font-bold text-indigo-600" data-lang="en">LTV:CAC Ratio</h3>
+                        <p class="text-sm text-gray-500" data-lang="ar">يضمن جدوى واستدامة نموذج العمل.</p>
+                        <p class="text-sm text-gray-500" data-lang="en">Ensures the viability and sustainability of the business model.</p>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-center font-bold text-xl mb-4" data-lang="ar">النسبة المستهدفة لـ LTV:CAC</h3>
+                    <h3 class="text-center font-bold text-xl mb-4" data-lang="en">Target LTV:CAC Ratio</h3>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="ltvCacChart"></canvas>
+                    </div>
+                     <p class="text-center text-sm mt-4 text-gray-600" data-lang="ar">النسبة الصحية (3:1)</p>
+                     <p class="text-center text-sm mt-4 text-gray-600" data-lang="en">Healthy Ratio (3:1)</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="fade-in-section my-16 md:my-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold" data-lang="ar">خارطة طريق واضحة للنمو</h2>
+                <h2 class="text-3xl font-bold" data-lang="en">A Clear Roadmap for Growth</h2>
+                <p class="text-gray-600 mt-2" data-lang="ar">نحن نبني المستقبل على مراحل مدروسة لضمان تقديم أقصى قيمة.</p>
+                <p class="text-gray-600 mt-2" data-lang="en">We are building the future in deliberate phases to ensure maximum value.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12">
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center relative roadmap-item">
+                    <div class="bg-indigo-100 text-indigo-600 font-black text-2xl h-12 w-12 rounded-full flex items-center justify-center mx-auto mb-4">1</div>
+                    <h3 class="font-bold text-lg" data-lang="ar">المرحلة 1: المنتج الأولي (MVP)</h3>
+                    <h3 class="font-bold text-lg" data-lang="en">Phase 1: MVP</h3>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="ar">إثبات القيمة الأساسية مع التركيز على أتمتة التقارير وإدارة المهام.</p>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="en">Prove core value with a focus on report automation and task management.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center relative roadmap-item">
+                    <div class="bg-indigo-100 text-indigo-600 font-black text-2xl h-12 w-12 rounded-full flex items-center justify-center mx-auto mb-4">2</div>
+                    <h3 class="font-bold text-lg" data-lang="ar">المرحلة 2: التوسع</h3>
+                    <h3 class="font-bold text-lg" data-lang="en">Phase 2: Expansion</h3>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="ar">تعزيز التعاون مع بوابة عملاء متكاملة ومسارات موافقة متقدمة.</p>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="en">Enhance collaboration with a full client portal and advanced approval workflows.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg text-center relative">
+                    <div class="bg-indigo-100 text-indigo-600 font-black text-2xl h-12 w-12 rounded-full flex items-center justify-center mx-auto mb-4">3</div>
+                    <h3 class="font-bold text-lg" data-lang="ar">المرحلة 3: النضج</h3>
+                    <h3 class="font-bold text-lg" data-lang="en">Phase 3: Maturity</h3>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="ar">تحقيق التميز عبر الذكاء الاصطناعي التنبؤي وتكاملات مالية متقدمة.</p>
+                    <p class="text-sm text-gray-600 mt-2" data-lang="en">Achieve excellence with predictive AI and advanced financial integrations.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-12 border-t mt-16">
+             <h2 class="text-3xl font-bold" data-lang="ar">هل أنت جاهز لتوحيد سير عملك؟</h2>
+             <h2 class="text-3xl font-bold" data-lang="en">Ready to Unify Your Workflow?</h2>
+             <p class="mt-4 text-gray-600" data-lang="ar">انضم إلى Nuro وابدأ في تحويل الفوضى إلى وضوح.</p>
+             <p class="mt-4 text-gray-600" data-lang="en">Join Nuro and start turning chaos into clarity.</p>
+             <a href="#" class="mt-8 inline-block bg-indigo-600 text-white px-10 py-4 rounded-lg font-bold text-lg hover:bg-indigo-700 transition-transform transform hover:scale-105">
+                <span data-lang="ar">ابدأ تجربتك المجانية</span>
+                <span data-lang="en">Start Your Free Trial</span>
+            </a>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentLang = 'ar';
+            const charts = {};
+
+            const t = (key) => translations[currentLang][key] || key;
+
+            const langSwitcher = document.getElementById('lang-switcher');
+            langSwitcher.addEventListener('click', () => {
+                currentLang = currentLang === 'ar' ? 'en' : 'ar';
+                document.documentElement.lang = currentLang;
+                document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+                renderAllCharts();
+                renderCompetitiveTable();
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in-section').forEach(section => {
+                observer.observe(section);
+            });
+
+            function renderAllCharts() {
+                renderMarketShareChart();
+                renderHoursChart();
+                renderLtvCacChart();
+            }
+            
+            function renderCompetitiveTable() {
+                const table = document.getElementById('competitive-table');
+                const features = [
+                    { key: 'unified_workflow', nuro: 'yes', asana: 'no', hubspot: 'limited', agency: 'no' },
+                    { key: 'client_portal', nuro: 'yes', asana: 'no', hubspot: 'expensive', agency: 'yes' },
+                    { key: 'ai_insights', nuro: 'yes', asana: 'limited', hubspot: 'yes', agency: 'limited' },
+                    { key: 'flexible_pricing', nuro: 'yes', asana: 'yes', hubspot: 'no', agency: 'yes' },
+                ];
+                const statusMap = {
+                    yes: `<span class="text-green-500 font-bold">✓ ${t('yes')}</span>`,
+                    no: `<span class="text-red-500 font-bold">✗ ${t('no')}</span>`,
+                    limited: `<span class="text-yellow-500 font-bold">~ ${t('limited')}</span>`,
+                    expensive: `<span class="text-orange-500 font-bold">$ ${t('expensive')}</span>`
+                };
+
+                let tableHTML = `
+                    <thead>
+                        <tr class="border-b">
+                            <th class="p-4 text-start font-bold">${t('feature')}</th>
+                            <th class="p-4 font-bold text-indigo-600">${t('nuro')}</th>
+                            <th class="p-4 font-bold">${t('asana_etc')}</th>
+                            <th class="p-4 font-bold">${t('hubspot')}</th>
+                            <th class="p-4 font-bold">${t('agency_analytics')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${features.map(feature => `
+                            <tr class="border-b last:border-none">
+                                <td class="p-4 text-start font-semibold">${t(feature.key)}</td>
+                                <td class="p-4 bg-indigo-50">${statusMap[feature.nuro]}</td>
+                                <td class="p-4">${statusMap[feature.asana]}</td>
+                                <td class="p-4">${statusMap[feature.hubspot]}</td>
+                                <td class="p-4">${statusMap[feature.agency]}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+                table.innerHTML = tableHTML;
+            }
+
+            function renderMarketShareChart() {
+                const ctx = document.getElementById('marketShareChart').getContext('2d');
+                if (charts.marketShare) charts.marketShare.destroy();
+                charts.marketShare = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [t('primary_segment_desc'), t('secondary_segment_desc')],
+                        datasets: [{
+                            label: t('market_share_chart_title'),
+                            data: [80, 20],
+                            backgroundColor: ['#4f46e5', '#34d399'],
+                            borderColor: ['#ffffff', '#ffffff'],
+                            borderWidth: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false, cutout: '70%',
+                        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `${c.label}: ${c.raw}%` } } }
+                    }
+                });
+            }
+
+            function renderHoursChart() {
+                const ctx = document.getElementById('hoursChart').getContext('2d');
+                 if (charts.hours) charts.hours.destroy();
+                charts.hours = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [t('without_nuro'), t('with_nuro')],
+                        datasets: [{
+                            label: t('hours_chart_title'),
+                            data: [10, 2],
+                            backgroundColor: ['#fca5a5', '#6ee7b7'],
+                            borderColor: ['#ef4444', '#10b981'],
+                            borderWidth: 2, borderRadius: 5,
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${c.raw} ${t('hours') || 'hours'}` } } },
+                        scales: { x: { beginAtZero: true, title: { display: true, text: t('hours_chart_title') } } }
+                    }
+                });
+            }
+
+            function renderLtvCacChart() {
+                const ctx = document.getElementById('ltvCacChart').getContext('2d');
+                if (charts.ltvCac) charts.ltvCac.destroy();
+                charts.ltvCac = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [t('cac'), t('ltv')],
+                        datasets: [{
+                            label: t('ltv_cac_chart_title'),
+                            data: [1, 3],
+                            backgroundColor: ['#fb923c', '#4ade80'],
+                            borderWidth: 1, borderRadius: 5,
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true, ticks: { callback: (v) => v + 'x' } } }
+                    }
+                });
+            }
+
+            renderAllCharts();
+            renderCompetitiveTable();
+        });
+    </script>
+</body>
+</html>
