@@ -412,6 +412,31 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const translations = {
+                ar: {
+                    yes: "نعم", no: "لا", limited: "محدود", expensive: "مكلف",
+                    feature: "الميزة", nuro: "Nuro", asana_etc: "Asana/Monday", hubspot: "HubSpot", agency_analytics: "AgencyAnalytics",
+                    unified_workflow: "سير عمل موحد", client_portal: "بوابة عملاء مدمجة", ai_insights: "رؤى ذكاء اصطناعي", flexible_pricing: "تسعير مرن",
+                    primary_segment_desc: "المستقلون ووكالات التسويق الصغيرة والمتوسطة (1-50 موظف).",
+                    secondary_segment_desc: "إدارات التسويق الداخلية والشركات الناشئة التي تؤسس أقسام تسويق جديدة.",
+                    market_share_chart_title: "توزيع السوق المستهدف",
+                    hours_chart_title: "ساعات العمل المهدرة أسبوعياً",
+                    with_nuro: "مع Nuro", without_nuro: "بدون Nuro", hours: "ساعات",
+                    ltv_cac_chart_title: "النسبة المستهدفة لـ LTV:CAC", cac: "تكلفة الاكتساب", ltv: "القيمة الدائمة"
+                },
+                en: {
+                    yes: "Yes", no: "No", limited: "Limited", expensive: "Expensive",
+                    feature: "Feature", nuro: "Nuro", asana_etc: "Asana/Monday", hubspot: "HubSpot", agency_analytics: "AgencyAnalytics",
+                    unified_workflow: "Unified Workflow", client_portal: "Integrated Client Portal", ai_insights: "AI-driven Insights", flexible_pricing: "Flexible Pricing",
+                    primary_segment_desc: "Freelancers and small to medium-sized marketing agencies (1-50 employees).",
+                    secondary_segment_desc: "In-house marketing departments and startups establishing new marketing teams.",
+                    market_share_chart_title: "Target Market Distribution",
+                    hours_chart_title: "Wasted Work Hours Per Week",
+                    with_nuro: "With Nuro", without_nuro: "Without Nuro", hours: "hours",
+                    ltv_cac_chart_title: "Target LTV:CAC Ratio", cac: "CAC", ltv: "LTV"
+                }
+            };
+
             let currentLang = 'ar';
             const charts = {};
 
